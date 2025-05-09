@@ -1,4 +1,4 @@
-import { Complex } from "./_math.js";
+import { Complex } from "./math.js";
 
 export { Draw , Interaction };
 

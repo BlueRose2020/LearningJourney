@@ -1,4 +1,4 @@
-import {Interaction} from "../../../../JS/_draw.js";
+import {Interaction} from "../../../../JS/draw.js";
 
 class FNN_ModelInteractionWindow extends Interaction{
     constructor(canvas, layers, resolution=2){
