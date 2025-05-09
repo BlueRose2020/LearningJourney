@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>前馈神经网络</title>
+    <link rel="stylesheet" href="../../../../CSS/base_style.css">
+    <link rel="stylesheet" href="../../../../CSS/code_style.css">
+</head>
+<script>
+    function resetHtmlFontSize() {
+        document.documentElement.style.fontSize = Math.sqrt(document.documentElement.clientWidth) / 20 + 'px';
+    }
+    resetHtmlFontSize();
+    window.onresize = resetHtmlFontSize;
+</script>
+
+<body>
+    <div class="side-bar"></div>
+    <div class="homepage">
+        <h1>前馈神经网络</h1>
+        <div class="title-container">
+            <h2>1.模型介绍</h2>
+            <div class="paragraph">
+                <p>前馈神经网络（Feedforward Neural Network）是最简单的神经网络模型之一，它也经常被称为多层感知机，由输入层、隐藏层和输出层组成，信息在网络中单向传播，没有反馈连接。可以用一个有向无环图表示。</p>
+            </div>
+            <div class="vertical-flex">
+                <canvas width="700rem" height="400rem" id="diagram"></canvas>
+                <p class="introduce-text">图1.1 前馈神经网络结构示意图</p>
+            </div>
+            <div class="paragraph">
+                <p>
+                    如图所示，前馈神经网络本质上是多层的神经元组成的模型，每层中具有不同数量的神经元，相邻层之间的神经元两两连接，并从左到右进行传播。
+                    图中蓝框的部分从左到右依次为输入层、隐藏层和输出层。
+                </p>
+                <p>前馈神经网络的基本组成单元是神经元（Neuron），每个神经元接收来自前一层的输入信号，并通过激活函数进行处理，输出结果到下一层。常用的激活函数包括Sigmoid、ReLU等。</p>
+            </div>
+        </div>
+        <div class="title-container">
+            <h2>2.前向传播</h2>
+            <div class="paragraph">
+                <p>为了更好的进行描述，接下来引入一些记号来描述前馈神经网络：</p>
+            </div>
+            <div class="table-container">
+                <p class="introduce-text">表1.1 前馈神经网络记号</p>
+                <table>
+                    <tr>
+                        <th>记号</th>
+                        <th>含义</th>
+                    </tr>
+                    <tr>
+                        <td><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mi>L</mi></math></td>
+                        <td>层数（从0开始，不包括输入层）</td>
+                    <tr>
+                        <td><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><msub><mi>N</mi><mi>l</mi></msub></math></td>
+                        <td>第<code>l</code>层的神经元个数</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><msub><mi>f</mi><mi>l</mi></msub><mo stretchy="false">(</mo><mo>·</mo><mo stretchy="false">)</mo></math>
+                        </td>
+                        <td>第<code>l</code>层的激活函数</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><msup><mi>z</mi><mrow><mo stretchy="false">(</mo><mi>l</mi><mo stretchy="false">)</mo></mrow></msup><mo>∈</mo><msup><mi>R</mi><mrow><msub><mi>N</mi><mrow><mi>l</mi></mrow></msub></mrow></msup></math>
+                        </td>
+                        <td>第<code>l</code>层神经元的净输入（净活性值）</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><msup><mi>a</mi><mrow><mo stretchy="false">(</mo><mi>l</mi><mo stretchy="false">)</mo></mrow></msup><mo>∈</mo><msup><mi>R</mi><mrow><msub><mi>N</mi><mrow><mi>l</mi></mrow></msub></mrow></msup></math>
+                        </td>
+                        <td>第<code>l</code>层神经元的输出（活性值）</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><msup><mi>W</mi><mrow><mo stretchy="false">(</mo><mi>l</mi><mo stretchy="false">)</mo></mrow></msup><mo>∈</mo><msup><mi>R</mi><mrow><msub><mi>N</mi><mrow><mi>l</mi></mrow></msub><mo>×</mo><msub><mi>N</mi><mrow><mi>l</mi><mo>−</mo><mn>1</mn></mrow></msub></mrow></msup></math>
+                        </td>
+                        <td>第<code>l-1</code>层到第<code>l</code>层的权重矩阵</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><msup><mi>b</mi><mrow><mo stretchy="false">(</mo><mi>l</mi><mo stretchy="false">)</mo></mrow></msup><mo>∈</mo><msup><mi>R</mi><mrow><msub><mi>N</mi><mrow><mi>l</mi></mrow></msub></mrow></msup></math>
+                        </td>
+                        <td>第<code>l-1</code>层到第<code>l</code>层的偏置</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="paragraph">
+                <p>
+                    令<math xmlns="http://www.w3.org/1998/Math/MathML" display="inline-block"><msup><mi>a</mi><mrow><mo stretchy="false">(</mo><mn>0</mn><mo stretchy="false">)</mo></mrow></msup><mo>=</mo><mi>x</mi></math>
+                    ,则前馈神经网络的前向传播可由下列公式表示：
+                </p>
+                <table class="formula-table">
+                    <tr>
+                        <td>
+                            <math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><msup><mi>z</mi><mrow><mo stretchy="false">(</mo><mi>l</mi><mo stretchy="false">)</mo></mrow></msup><mo>=</mo><msup><mi>W</mi><mrow><mo stretchy="false">(</mo><mi>l</mi><mo stretchy="false">)</mo></mrow></msup><msup><mi>a</mi><mrow><mo stretchy="false">(</mo><mi>l</mi><mo>−</mo><mn>1</mn><mo stretchy="false">)</mo></mrow></msup><mo>+</mo><msup><mi>b</mi><mrow><mo stretchy="false">(</mo><mi>l</mi><mo stretchy="false">)</mo></mrow></msup></math>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><msup><mi>a</mi><mrow><mo stretchy="false">(</mo><mi>l</mi><mo stretchy="false">)</mo></mrow></msup><mo>=</mo><msub><mi>f</mi><mi>l</mi></msub><mo stretchy="false">(</mo><msup><mi>z</mi><mrow><mo stretchy="false">(</mo><mi>l</mi><mo stretchy="false">)</mo></mrow></msup><mo stretchy="false">)</mo></math>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="paragraph">
+                <p>看到这些莫名其妙的符号不要感到畏惧，下面的交互动画可以帮助你进行理解。</p>
+            </div>
+            <div class="vertical-flex">
+                <canvas width="700rem" height="400rem" id="interaction-window"></canvas>
+                <p class="introduce-text">交互窗1.1 前向传播交互窗口</p>
+            </div>
+            <div class="paragraph">
+                <p>接下来我们将使用<a href="#">python</a>编写一个简单的前馈神经网络。其中需要使用到<a href="#">numpy</a>库，如果不知道怎么使用numpy或者不会编写python程序，可以点击相应的链接查看教程。</p>
+                <p>首先，需要导入numpy库，并且可以先编写简单的激活函数。</p>
+            </div>
+            <div class="code-box"></div>
+            <div class="paragraph">
+                <p>
+                    接着，我们可以对需要的参数进行初始化，包括网络结构（层数即每层神经元的数量N），权重矩阵W和偏置b。分别对应代码中的N,weights,biases.
+                    同样的，对输入X初始化。你可以根据个人喜欢采用自定义或者随机初始化。
+                </p>
+            </div>
+            <div class="code-box"></div>
+            <div class="paragraph">
+                <p>接下来，我们可以编写前向传播内容。注意到我们在初始化时已经将权重矩阵和偏置初始化为numpy数组，因此在进行前向传播时，我们可以直接使用numpy的矩阵乘法。</p>
+                <p>
+                    根据公式<code>(1.1)</code>和<code>(1.2)</code>，可以得到每层的净输入和激活值。至此，我们成功使用numpy实现了一个简单的前馈神经网络。
+                    但随机初始化的权重矩阵和偏置并不能得到一个好的结果，因此我们需要对其进行训练。接下来我们将介绍如何使用反向传播算法对前馈神经网络进行训练。
+                </p>
+            </div>
+            <div class="code-box"></div>
+        </div>
+
+        <div class="title-container">
+            <h2>3.反向传播</h2>
+            <div class="paragraph">
+                <p>反向传播算法（Backpropagation）是训练前馈神经网络的关键算法，它通过计算损失函数对权重和偏置的梯度来更新网络参数，从而最小化损失函数。</p>
+                <p>反向传播算法的基本思想是：从输出层开始，计算每一层的误差，然后将误差反向传播到前一层，直到输入层。具体步骤如下：</p>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script type="module" src="../../js/show_contents.js"></script>
+<script type="module" src="../../js/1.基础模型/FNN.js"></script>
+<script type="module" src="../../js/1.基础模型/code.js"></script>
+<script src="../../../../JS/document_basic.js"></script>
+</html>

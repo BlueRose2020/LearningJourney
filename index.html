@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>教程</title>
+    
+    <script>
+        function resetHtmlFontSize(){
+            document.documentElement.style.fontSize = Math.sqrt(document.documentElement.clientWidth)/20 + 'px';
+        }
+        resetHtmlFontSize();
+        window.onresize = resetHtmlFontSize;
+    </script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            font-size: 50px;
+        }
+
+        header {
+            background-color: #0077ff;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        nav {
+            background-color: #e4e4e4;
+            overflow: hidden;
+        }
+        nav a {
+            font-size: 15px;
+            float: left;
+            display: block;
+            color: rgb(109, 109, 109);
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+        nav a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+        main {
+            padding: 2rem;
+            text-align: center;
+        }
+        .tutorial-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 50rem;
+            margin-top: 2rem;
+        }
+        .tutorial-links a {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 23rem;
+            width: 120rem;
+            height: 170rem;
+            text-decoration: none;
+            color: #0077ff;
+            border: 1px solid #0077ff;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+        }
+        .tutorial-links a:hover {
+            background-color: #0077ff;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>欢迎来到大创教程网站</h1>
+    </header>
+    <nav>
+        <a href="#home">首页</a>
+        <a href="#about">关于我们</a>
+        <a href="#contact">联系我们</a>
+    </nav>
+    <main>
+        <h1>开始学习吧！</h1>
+        <p style="font-size: 20px;">这里有丰富的教程资源，帮助你快速掌握新技能。</p>
+        <div class="tutorial-links">
+            <a href="./tutorial/blender/blender.html">blender 教程</a>
+            <a href="./tutorial/神经网络/NN.html">神经网络 教程</a>
+            <a href="./tutorial/Unity/unity.html">Unity 教程</a>
+        </div>
+    </main>
+    <footer style="text-align: center; padding: 1rem; background-color: #f1f1f1; margin-top: 2rem;">
+        <p style="font-size: 12px;">&copy; 2025 大创教程网站</p>
+    </footer>
+</body>
+</html>

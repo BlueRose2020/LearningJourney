@@ -1,0 +1,30 @@
+[
+        {
+        	"name":"一.安装和介绍",
+        	"children":["1.1 blender下载安装.html","1.2 初识blender.html"]
+        },
+        {
+        	"name":"二.传统建模",
+        	"children":[]
+        },
+        {
+        	"name":"三.材质",
+        	"children":[]
+        },
+        {
+        	"name":"四.几何节点",
+        	"children":[]
+        },
+        {
+        	"name":"五.雕刻",
+        	"children":[]
+        },
+        {
+        	"name":"软件配置",
+        	"children":[]
+        },
+        {
+        	"name":"参考资料",
+        	"children":[]
+        }
+]

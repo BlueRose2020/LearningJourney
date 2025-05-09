@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blender教程</title>
+</head>
+<script>
+    function resetHtmlFontSize(){
+        document.documentElement.style.fontSize = Math.sqrt(document.documentElement.clientWidth)/20 + 'px';
+    }
+    resetHtmlFontSize();
+    window.onresize = resetHtmlFontSize;
+</script>
+<style>
+    .header {
+        background-color: rgb(255, 166, 0);
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 140rem;
+        width: 100vw;
+    }
+
+    h1 {
+        margin-top: 25rem;
+        color: white;
+        text-align: center;
+        font-size: 60rem;
+        z-index: 1;
+    }
+
+    .card-box {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        width: 80%;
+        height: auto;
+        z-index: 1;
+    }
+
+    .card {
+        color: rgb(255, 166, 0);
+        font-size: 25rem;
+        text-align: center;
+        width: 100rem;
+        height: 150rem;
+        display: flex;
+        margin: 0 auto;
+        border-radius: 15px;
+        background-color: rgba(255, 166, 0, 0.3);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        user-select: none;
+        margin-bottom: 20px;
+        text-decoration: none;
+    }
+
+    .card:hover {
+        color: white;
+        background-color: rgb(255, 166, 0);
+        transform: scale(1.05);
+        transition: all 0.3s ease;
+    }
+</style>
+<body>
+    <div class="header">
+        <h1>Blender教程</h1>
+        <div class="card-box">
+        </div>
+    </div>
+</body>
+<script type="module" src="./js/add_card.js"></script>
+</html>

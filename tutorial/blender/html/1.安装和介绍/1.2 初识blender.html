@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blender教程</title>
+    <link rel="stylesheet" href="../../../../CSS/base_style.css">
+</head>
+<script>
+    function resetHtmlFontSize(){
+        document.documentElement.style.fontSize = Math.sqrt(document.documentElement.clientWidth)/20 + 'px';
+    }
+    resetHtmlFontSize();
+    window.onresize = resetHtmlFontSize;
+</script>
+<body>
+    <div class="side-bar"></div>
+    <div class="homepage">
+        <h1>初识Blender</h1>
+        <div class="title-container">
+            <h2>1.界面介绍</h2>
+            <div class="paragraph">
+                <p>
+                    安装完成后打开blender，会进入如下界面，可以在红色框的位置选择你喜欢的语言和主题，正常应该看不到第一行的内容，
+                    我是因为之前用过blender所以可以选择导入之前的设置。作为初学者不推荐更改其余设置，可能会导致操作与教程有偏差。
+                </p>
+            </div>
+            <div class="vertical-flex">
+                <a href="../../picture/安装和介绍/初识blender/首次使用界面.png" target="_blank">
+                    <img src="../../picture/安装和介绍/初识blender/首次使用界面.png">
+                </a>
+                <p class="introduce-text">图1.1 blender首次使用界面</p>
+            </div>
+            <div class="paragraph">
+                <p>
+                    完成上述工作后会出现如下界面，该界面会在你每次使用blender时出现，作为初学者，选择“常规”来新建一个工程文件即可，
+                    也可以点击其余空白位置，会默认创建常规的工程文件。
+                </p>
+            </div>
+            <div class="vertical-flex">
+                <a href="../../picture/安装和介绍/初识blender/新建工程.png" target="_blank">
+                    <img src="../../picture/安装和介绍/初识blender/新建工程.png">
+                </a>
+                <p class="introduce-text">图1.2 创建工程文件界面</p>
+            </div>
+            <div class="paragraph">
+                <p>
+                    创建工程文件后会进入“布局界面”，可以在方框处选择不同的界面，不同的界面在处理不同的工作时会有更高的效率，目前使用默认的“布局”界面即可。
+                </p>
+            </div>
+            <div class="vertical-flex">
+                <a href="../../picture/安装和介绍/初识blender/界面选择.png" target="_blank">
+                    <img src="../../picture/安装和介绍/初识blender/界面选择.png">
+                </a>
+                <p class="introduce-text">图1.3 界面选择</p>
+            </div>
+            <div class="paragraph">
+                <p>
+                    在“布局”界面中，有四大块区域，分别为操作界面，场景集合，属性和时间轴，操作界面即进行建模的界面，场景集合中能够查看当前场景中都含有哪些模型。
+                    如当前场景中包含一个摄像机（camera），一个正方体（cube）和一个灯光（light）。属性界面能够设置物体的各类属性，如颜色，材质，渲染等。时间轴主要用于动画制作。
+                    这些内容会在后续教程中进行详细介绍。
+                </p>
+            </div>
+            <div class="vertical-flex">
+                <a href="../../picture/安装和介绍/初识blender/“布局”界面介绍.png" target="_blank">
+                    <img src="../../picture/安装和介绍/初识blender/“布局”界面介绍.png">
+                </a>
+                <p class="introduce-text">图1.4 布局界面</p>
+            </div>
+            <div class="paragraph">
+                <p>
+                    如果你对当前界面各部分的布局不满意或者在使用过程中不小心关闭了某个窗口，可以将鼠标移动至想调整的窗口的边框（鼠标会变成双向箭头）并拖动来调整窗口的大小。
+                    或者可以将鼠标移动至窗口的角落（鼠标会变成十字形箭头）并拖动来创建新的窗口或合并窗口。
+                    你也可以通过鼠标右键点击窗口的边框，选择“分割区域”或“合并区域”等来重新调整窗口。
+                    在每个窗口的左上角有一个图标，点击后可以选择该窗口的类型，如3D视图，属性，时间轴等。
+                </p>
+            </div>
+            <div class="vertical-flex">
+                <table class="img-table">
+                    <tr>
+                        <td>
+                            <a href="../../picture/安装和介绍/初识blender/调整窗口大小.gif" target="_blank">
+                                <img src="../../picture/安装和介绍/初识blender/调整窗口大小.gif">
+                            </a>
+                        </td>
+                        <td>
+                            <a href="../../picture/安装和介绍/初识blender/分割合并窗口.gif" target="_blank">
+                                <img src="../../picture/安装和介绍/初识blender/分割合并窗口.gif">
+                            </a>
+                        </td>
+                        <td>
+                            <a href="../../picture/安装和介绍/初识blender/切换窗口类型.gif" target="_blank">
+                                <img src="../../picture/安装和介绍/初识blender/切换窗口类型.gif">
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+                <p class="introduce-text">图1.5 窗口调整</p>
+            </div>
+        </div>
+
+        <div class="title-container">
+            <h2>2.基础操作</h2>
+            <div class="paragraph">
+                <p>
+                    在blender中，鼠标的操作是非常重要的，blender中有很多操作都是通过鼠标来完成的。这里用表格总结了鼠标的基本操作。
+                    表格后有每个操作的动图展示。
+                </p>
+            </div>
+            <div class="table-container">
+                <p class="introduce-text">表2.1 鼠标基础操作表</p>
+                <table>
+                    <tr>
+                        <th>操作</th>
+                        <th>功能</th>
+                    </tr>
+                    <tr>
+                        <td>左键</td>
+                        <td>选择物体或菜单</td>
+                    </tr>
+                    <tr>
+                        <td>滑动滚轮</td>
+                        <td>放大/缩小界面</td>
+                    </tr>
+                    <tr>
+                        <td>按住鼠标滚轮并移动</td>
+                        <td>调整视角</td>
+                    </tr>
+                    <tr>
+                        <td>按下shift同时按住鼠标滚轮并移动</td>
+                        <td>平移视角</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="vertical-flex">
+                <table class="img-table">
+                    <tr>
+                        <td>
+                            <a href="../../picture/安装和介绍/初识blender/选择物体.gif" target="_blank">
+                                <img src="../../picture/安装和介绍/初识blender/选择物体.gif">
+                            </a>
+                        </td>
+                        <td>
+
+                            <a href="../../picture/安装和介绍/初识blender/缩放界面.gif" target="_blank">
+                                <img src="../../picture/安装和介绍/初识blender/缩放界面.gif">
+                            </a>
+                        <td>
+                    </tr>
+                    <tr>
+                        <td>选择物体</td>
+                        <td>缩放界面</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="../../picture/安装和介绍/初识blender/调整视角.gif" target="_blank">
+                                <img src="../../picture/安装和介绍/初识blender/调整视角.gif">
+                            </a>
+                        </td>
+                        <td>
+                            <a href="../../picture/安装和介绍/初识blender/平移视角.gif" target="_blank">
+                                <img src="../../picture/安装和介绍/初识blender/平移视角.gif">
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>调整视角</td>
+                        <td>平移视角</td>
+                    </tr>
+                </table>
+                <p class="introduce-text" style="margin-top: -20px;">图2.1 基础鼠标操作</p>
+            </div>
+        </div>
+
+
+
+        <div class="title-container">
+            <h2>3.基础按钮</h2>
+            <div class="paragraph">
+                <p>
+                    在主窗口的两侧有几个按钮，对应不同的功能。在实际建模过程中更多使用的是快捷键，这里简单介绍几个常用的按钮。其余按钮在后续的教程中会进行介绍。
+                </p>
+            </div>
+            <div class="vertical-flex">
+                <a href="../../picture/安装和介绍/初识blender/功能按钮.png" target="_blank">
+                    <img src="../../picture/安装和介绍/初识blender/功能按钮.png">
+                </a>
+                <p class="introduce-text">图2.5 功能按钮</p>
+            </div>
+            <div class="paragraph">
+                <p>
+                    在左侧的工具栏中，图标右下角有三角形的表示可以选择不同的操作类型，通过长按按钮可以进行选择。左侧工具栏分为三个部分，这里介绍第一部分的第一个和第二部分。
+                </p>
+                <p>
+                    最上方的按钮为“选择”按钮，点击后可以选择当前场景中的物体，按住shift键可以多选。
+                    <span class="highlight">
+                        长按或按“W”
+                    </span>
+                    可以切换不同的选择模式。
+                    不同的选择模式有不同的优点，例如框选适合规则的选择目标，滑动选择更加自由等，具体可在后续学习中感受。
+                </p>
+                <p>
+                    第二部分的按钮用于操作物体，包括移动，旋转和缩放。选择物体后，点击对应的按钮，物体上会出现红蓝绿三个轴和三个小长方形（旋转操作显示的是三个圆圈）。
+                    拖动对应的轴即可实现沿轴移动，旋转和缩放。拖动小长方形可以实现沿改平面移动或缩放。
+                </p>
+            </div>
+            <table class="img-table">
+                <tr>
+                    <td>
+                        <a href="../../picture/安装和介绍/初识blender/移动.gif" target="_blank">
+                            <img src="../../picture/安装和介绍/初识blender/移动.gif">
+                        </a>
+                    </td>
+                    <td>
+                        <a href="../../picture/安装和介绍/初识blender/旋转.gif" target="_blank">
+                            <img src="../../picture/安装和介绍/初识blender/旋转.gif">
+                        </a>
+                    </td>
+                    <td>
+                        <a href="../../picture/安装和介绍/初识blender/缩放.gif" target="_blank">
+                            <img src="../../picture/安装和介绍/初识blender/缩放.gif">
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>移动</td>
+                    <td>旋转</td>
+                    <td>缩放</td>
+                </tr>
+            </table>
+        </div>
+</body>
+
+<script type="module" src="../../js/show_contents.js"></script>
+
+</html>

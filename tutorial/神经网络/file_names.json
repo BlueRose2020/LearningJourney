@@ -1,0 +1,30 @@
+[
+        {
+        	"name":"一.基础模型",
+        	"children":["前馈神经网络.html","卷积神经网络.html","循环神经网络.html"]
+        },
+        {
+        	"name":"二.网络优化",
+        	"children":[]
+        },
+        {
+        	"name":"三.进阶模型",
+        	"children":[]
+        },
+        {
+        	"name":"四.大模型",
+        	"children":[]
+        },
+        {
+        	"name":"五.液体神经网络",
+        	"children":[]
+        },
+        {
+        	"name":"附录",
+        	"children":["矩阵微积分.html"]
+        },
+        {
+        	"name":"参考资料",
+        	"children":[]
+        }
+]
