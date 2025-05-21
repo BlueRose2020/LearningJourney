@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>基础概念</title>
+    <link rel="stylesheet" href="../../../../CSS/base_style.css">
+</head>
+<script>
+    function resetHtmlFontSize(){
+        document.documentElement.style.fontSize = Math.sqrt(document.documentElement.clientWidth)/20 + 'px';
+    }
+    resetHtmlFontSize();
+    window.onresize = resetHtmlFontSize;
+</script>
+<body>
+    <div class="side-bar"></div>
+    <div class="homepage">
+        <h1>model</h1>
+        <div class="title-container">
+            <h2>1.head</h2>
+            <div class="paragraph">
+                <p>p</p>
+            </div>
+            <div class="vertical-flex">
+                <a href="xxx.png" target="_blank">
+                    <img src="xxx.png">
+                </a>
+                <p class="introduce-text">图1.1 picture</p>
+            </div>
+        </div>
+            
+    </div>
+</body>
+<script type="module" src="../../js/show_contents.js"></script>
+</html>

@@ -29,13 +29,22 @@ z3 = np.dot(weights[2], a2) + biases[2]
 a3 = sigmoid(z3)
 
 print('第一层的净输入：\\n',z1)
-print('第一层的激活值：\\n',a1)
+print('第一层的活性值：\\n',a1)
 print('第二层的净输入：\\n',z2)
-print('第二层的激活值：\\n',a2)
+print('第二层的活性值：\\n',a2)
 print('第三层的净输入：\\n',z3)
-print('第三层的激活值：\\n',a3)`
+print('第三层的活性值：\\n',a3)`
 
-let code_list = [active_func_code, init_code, forward_code];
+let forward_code_modified = `Z = []
+A = [X]
+
+for i in range(len(N)-1):
+    Z.append(np.dot(weights[i], A[i]) + biases[i])
+    A.append(sigmoid(Z[i]))
+    print('第%d层的净输入：\\n'%(i+1),Z[i])
+    print('第%d层的激活值：\\n'%(i+1),A[i+1])`
+
+let code_list = [active_func_code, init_code, forward_code,forward_code_modified];
 
 let code_box = document.getElementsByClassName('code-box');
 

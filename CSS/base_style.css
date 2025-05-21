@@ -94,6 +94,10 @@ table {
     background-color: rgb(255, 255, 0);
 }
 
+.bold{
+    font-weight: bold;
+}
+
 .side-bar {
     width: 150rem;
     height: 100%;
