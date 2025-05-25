@@ -95,12 +95,12 @@
                 <table class="formula-table">
                     <tr>
                         <td>
-                            <math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><msup><mi>z</mi><mrow><mo stretchy="false">(</mo><mi>l</mi><mo stretchy="false">)</mo></mrow></msup><mo>=</mo><msup><mi>W</mi><mrow><mo stretchy="false">(</mo><mi>l</mi><mo stretchy="false">)</mo></mrow></msup><msup><mi>a</mi><mrow><mo stretchy="false">(</mo><mi>l</mi><mo>−</mo><mn>1</mn><mo stretchy="false">)</mo></mrow></msup><mo>+</mo><msup><mi>b</mi><mrow><mo stretchy="false">(</mo><mi>l</mi><mo stretchy="false">)</mo></mrow></msup></math>
+                            $z^{(l)}=W^{(l)}a^{(l-1)}+b^{(l)}$
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><msup><mi>a</mi><mrow><mo stretchy="false">(</mo><mi>l</mi><mo stretchy="false">)</mo></mrow></msup><mo>=</mo><msub><mi>f</mi><mi>l</mi></msub><mo stretchy="false">(</mo><msup><mi>z</mi><mrow><mo stretchy="false">(</mo><mi>l</mi><mo stretchy="false">)</mo></mrow></msup><mo stretchy="false">)</mo></math>
+                            $a^{(l)}=f_{(l)}(z^{(l)})$
                         </td>
                     </tr>
                 </table>
@@ -156,14 +156,432 @@
                 <p><span class="bold">反向传播算法</span>（Backpropagation）是训练前馈神经网络的关键算法，它通过计算损失函数对权重和偏置的梯度来更新网络参数，从而最小化损失函数。</p>
                 <p>
                     记
-                    <math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><mi data-mjx-variant="-tex-calligraphic" mathvariant="script">L</mi></mrow></math>
-                    为损失函数
+                    <span style="font-family: calligraphy">L</span>
+                    为损失函数，则权重和偏置的更新方法如下：
                 </p>
+                <table class="formula-table">
+                    <tr>
+                        <td>
+                            $W\longleftarrow W-\frac{\partial \mathcal{L} }{\partial W} $
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            $b\longleftarrow b-\frac{\partial \mathcal{L} }{\partial b} $
+                        </td>
+                    </tr>
+                </table>
+                <p>接下来将推导损失函数对W和b的梯度，若对推导过程不感兴趣，可以直接跳转到<a href="">结论</a>处查看。</p>
+            </div>
+            <div class="proof-box">
+                <p>
+                    不失一般性，计算损失函数对第l层的W和b的偏导数，由于$\frac{\partial \mathcal{L}}{\partial W^{(l)}}$涉及向量对矩阵的求导，较为繁琐，
+                    可以先求解损失函数对其每个元素的导数$\frac{\partial \mathcal{L}}{\partial w^{(l)}_{ij}}$，根据链式法则，有如下等式成立：
+                </p>
+                <table class="formula-table">
+                    <tr>
+                        <td>
+                            $\frac{\partial \mathcal{L}}{\partial w^{(l)}_{ij}} = \frac{\partial z^{(l)}}{\partial w^{(l)}_{ij}}\frac{\partial \mathcal{L}}{\partial z^{(l)}}$
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            $\frac{\partial \mathcal{L}}{\partial b^{(l)}} = \frac{\partial z^{(l)}}{\partial b^{(l)}}\frac{\partial \mathcal{L}}{\partial z^{(l)}}$
+                        </td>
+                    </tr>
+                </table>
+                <p>
+                    记$\delta^{(l)} = \frac{\partial \mathcal{L}}{\partial z^{(l)}}$，称为误差项，接下来对各个偏导进行计算：
+                </p>
+
+                <p>(1)$\Large{ }\frac{\partial z^{(l)}}{\partial w^{(l)}_{ij}}$</p>
+                <p>由定义可知：</p>
+                <table  class="formula-table">
+                    <tr>
+                        <td>
+                            $\frac{\partial z^{(l)}}{\partial w^{(l)}_{ij}} = (\frac{\partial z^{(l)}_{1}}{\partial w^{(l)}_{ij}},\frac{\partial z^{(l)}_{2}}{\partial w^{(l)}_{ij}},...,\frac{\partial z^{(l)}_{N_{l}}}{\partial w^{(l)}_{ij}})$
+                        </td>
+                    </tr>
+                </table>
+                <p>对于第m项(m=1,2,...,$N_{l}$),根据$z^{(l)}=W^{(l)}a^{(l-1)}+b^{(l)}$有：</p>
+                <table class="formula-table">
+                    <tr>
+                        <td>
+                            $z^{(l)}_{m} = \sum_{k=1}^{N_{l-1}} w^{(l)}_{mk}a^{(l-1)}_{k} + b^{(l)}_{m} $
+                        </td>
+                    </tr>
+                </table>
+                <p>而</p>
+                <table class="formula-table">
+                    <tr>
+                        <td>
+                            $\frac{\partial w^{(l)}_{mk}a^{(l-1)}_{k}}{\partial w^{(l)}_{ij}} = 
+                            \begin{cases}
+                            a^{(l-1)}_{j} & m=i,k=j\\
+                            0 &其它
+                            \end{cases}$
+                        </td>
+                    </tr>
+                </table>
+                <p>因此，式(3.5)可以化为：</p>
+                <table class="formula-table">
+                    <tr>
+                        <td>
+                            $\small{ }
+                            \begin{align}
+                            \frac{\partial z^{(l)}}{\partial w^{(l)}_{ij}} & = (0,0,...,a^{(l-1)}_{j},...,0)\\
+                            & = \mathbb{I}_{i}(a^{(l-1)}_{j}) \in \mathbb{R}^{1 \times N_{l}}
+                            \end{align}$
+                        </td>
+                    </tr>
+                </table>
+                <p>其中$a^{(l)}_{j}$是该向量的第$i$个元素</p>
+                <p></p>
+                <p>该方法也可以写成如下形式：</p>
+                <table class="formula-table">
+                    <tr>
+                        <td>
+                            $\small{ }
+                            \begin{align}
+                            \frac{\partial z^{(l)}}{\partial w^{(l)}_{ij}} & = \frac{\partial w^{(l)}a^{(l-1)}+b^{(l)}}{\partial w^{(l)}_{ij}}\\
+                                & = \frac{\partial w^{(l)}a^{(l-1)}}{\partial w^{(l)}_{ij}} \\
+                                & = \frac{\partial \begin{pmatrix}
+                                z^{(l)}_{1} = \sum_{k=1}^{N_{l-1}} w^{(l)}_{1k}a^{(l-1)}_{k}\\
+                                z^{(l)}_{2} = \sum_{k=1}^{N_{l-1}} w^{(l)}_{2k}a^{(l-1)}_{k}\\
+                                \vdots \\
+                                z^{(l)}_{N_{l}} = \sum_{k=1}^{N_{l-1}} w^{(l)}_{N_{l}k}a^{(l-1)}_{k}
+                                \end{pmatrix}}{\partial w^{(l)}_{ij}} \\
+                                & = (0,0,...,a^{(l-1)}_{j},...,0)\\
+                                & = \mathbb{I}_{i}(a^{(l-1)}_{j}) \in \mathbb{R}^{1 \times N_{l}}
+                            \end{align} $
+                        </td>
+                    </tr>
+                </table>
+                
+                <p>(2)$\Large{ }\frac{\partial z^{(l)}}{\partial b^{(l)}}$</p>
+                <p>同样的方法，可以计算出其表达式如下：</p>
+                <table class="formula-table">
+                    <tr>
+                        <td>
+                            $\small{ }
+                            \begin{align}
+                            \frac{\partial z^{(l)}}{\partial b^{(l)}} & = \frac{\partial w^{(l)}a^{(l-1)}+b^{(l)}}{\partial b^{(l)}}\\
+                                & = \frac{\partial b^{(l)}}{\partial b^{(l)}} \\
+                                & = I_{N_{l}} \in \mathbb{R}^{N_{l} \times N_{l}}
+                            \end{align}$
+                        </td>
+                    </tr>
+                </table>
+
+                <p>(3)$\Large{ }\frac{\partial \mathcal{L} }{\partial z^{(l)}}$</p>
+                <p>当第$l$层为输出层时，该式可有定义直接求出（在后续会给出几个常见的损失函数的推导）。对于其他层，我们能够推出它的递推公式，从而通过方向传播得到每一层的误差项。</p>
+                <p>由链式法则有：</p>
+                <table class="formula-table">
+                    <tr>
+                        <td>
+                            $\small{}
+                            \begin{align}
+                            \delta^{(l)} = \frac{\partial \mathcal{L} }{\partial z^{(l)}} & = \frac{\partial a^{(l)}}{\partial z^{(l)}}\frac{\partial z^{(l+1)}}{\partial a^{(l)}}\frac{\partial \mathcal{L} }{\partial z^{(l+1)}} \\
+                                        &= \frac{\partial a^{(l)}}{\partial z^{(l)}}\frac{\partial z^{(l+1)}}{\partial a^{(l)}}\delta^{(l+1)} \in \mathbb{R}^{N_{l} \times 1}
+                            \end{align}$
+                        </td>
+                    </tr>
+                </table>
+                <p>由公式(2.1)和公式(2.2)可知：</p>
+                <table class="formula-table">
+                    <tr>
+                        <td>
+                            $\small{}
+                            \begin{align}
+                            \frac{\partial a^{(l)}}{\partial z^{(l)}} & = \frac{\partial f_{l}(z^{(l)})}{\partial z^{(l)}} \\
+                                & = \frac{\partial (f_{l}(z^{(l)}_{1}),f_{l}(z^{(l)}_{2},...,f_{l}(z^{(l)}_{N_{l}})))^{T}}{\partial (z^{(l)}_{1},z^{(l)}_{2},...,z^{(l)}_{N_{l}})^{T}} \\
+                                & = \begin{pmatrix}
+                                    \frac{\partial f_{l}(z^{(l)}_{1})}{\partial z^{(l)}_{1}} & \frac{\partial f_{l}(z^{(l)}_{2})}{\partial z^{(l)}_{1}} & ... & \frac{\partial f_{l}(z^{(l)}_{N_{l}})}{\partial z^{(l)}_{1}}\\
+                                    \frac{\partial f_{l}(z^{(l)}_{1})}{\partial z^{(l)}_{2}} & \frac{\partial f_{l}(z^{(l)}_{2})}{\partial z^{(l)}_{2}} & ... & \frac{\partial f_{l}(z^{(l)}_{N_{l}})}{\partial z^{(l)}_{2}}\\
+                                    \vdots & \vdots & \ddots & \vdots\\
+                                    \frac{\partial f_{l}(z^{(l)}_{1})}{\partial z^{(l)}_{N_{l}}} & \frac{\partial f_{l}(z^{(l)}_{2})}{\partial z^{(l)}_{N_{l}}} & ... & \frac{\partial f_{l}(z^{(l)}_{N_{l}})}{\partial z^{(l)}_{N_{l}}}
+                                    \end{pmatrix} \\
+                                & = \begin{pmatrix}
+                                    \frac{\partial f_{l}(z^{(l)}_{1})}{\partial z^{(l)}_{1}} & 0 & ... & 0\\
+                                    0 & \frac{\partial f_{l}(z^{(l)}_{2})}{\partial z^{(l)}_{2}} & ... & 0\\
+                                    \vdots & \vdots & \ddots & \vdots\\
+                                    0 & 0 & ... & \frac{\partial f_{l}(z^{(l)}_{N_{l}})}{\partial z^{(l)}_{N_{l}}}
+                                    \end{pmatrix} \\
+                                & = diag({f}'(z^{(l)}))
+                            \end{align}$
+                        </td>
+                    </tr>
+                </table>
+                <p></p>
+                <table class="formula-table">
+                    <tr>
+                        <td>
+                            $\small{}
+                            \begin{align}
+                            \frac{\partial z^{(l+1)}}{\partial a^{(l)}} & = \frac{\partial W^{(l+1)}a^{(l)}+b^{(l+1)}}{\partial a^{(l)}} \\
+                            & = (W^{(l+1)})^{T} \in \mathbb{R}^{N_{l} \times N_{l+1}}
+                            \end{align}$
+                        </td>
+                    </tr>
+                </table>
+                <p>代入公式(3.11)得：</p>
+                <table class="formula-table">
+                    <tr>
+                        <td>
+                            $\small{}
+                            \begin{align}
+                            \delta^{(l)} & = diag({f}'(z^{(l)}))(W^{(l+1)})^{T}\delta^{(l+1)} \\
+                            & = {f}'(z^{(l)}) \odot ((W^{(l+1)})^{T}\delta^{(l+1)}) \in \mathbb{R}^{N_{l} \times 1}
+                            \end{align}$
+                        </td>
+                    </tr>
+                </table>
+                <p>综上，我们可以得到：</p>
+                <table class="formula-table">
+                    <tr>
+                        <td>
+                            $\small{}
+                            \begin{align}
+                            \frac{\partial \mathcal{L} }{\partial w^{(l)}_{ij}} & = \frac{\partial z^{(l)}}{\partial w^{(l)}_{ij}}\frac{\partial \mathcal{L}}{\partial z^{(l)}} \\
+                            & = \mathbb{I}_{i}(a_{j}^{(l-1)})\delta^{(l)} \\
+                            & = (0,0,...,a^{(l-1)}_{j},...,0)\begin{pmatrix}
+                                                        \delta^{(l)}_{1} \\
+                                                        \delta^{(l)}_{2} \\
+                                                        \vdots \\
+                                                        \delta^{(l)}_{N_{l}}\\
+                                                        \end{pmatrix} \\
+                            & = \delta^{(l)}_{i}a^{(l-1)}_{j} \\
+                            & = (\delta^{(l)}(a^{(l-1)})^{T})_{ij}
+                            \end{align}$
+                        </td>
+                    </tr>
+                </table>
+                <p>从而</p>
+                <table class="formula-table">
+                    <tr>
+                        <td>
+                            $\small{}
+                            \begin{align}
+                            \frac{\partial \mathcal{L} }{\partial W^{(l)}} = \delta^{(l)}(a^{(l-1)})^{T} \in \mathbb{R}^{N_{l} \times N_{l-1}}
+                            \end{align}$
+                        </td>
+                    </tr>
+                </table>
+                <p>接下来我们将计算几个常用的损失函数的梯度</p>
+                <p>(1)输出层为$sigmoid,\mathcal{L}=BCE(binary$&nbsp;&nbsp;$$cross-entropy)$</p>
+                <p>由定义知：</p>
+                <table class="formula-table">
+                    <tr>
+                        <td>
+                            $\small{}
+                            \begin{align}
+                            \mathcal{L}(y, \hat{y}) &= -  {\textstyle \sum_{i=1}^{N_{l}}} (y_{i}\log(\hat{y_{i}}) + (1-y_{i})\log(1-\hat{y_{i}}))
+                            \end{align}$
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            $\small{}
+                            \begin{align}
+                            \hat{y} = \frac{1}{1+e^{-z^{(l)}}}
+                            \end{align}$
+                        </td>
+                    </tr>
+                </table>
+                <p>因此</p>
+                <table class="formula-table">
+                    <tr>
+                        <td>
+                            $\small{}
+                            \begin{align}
+                            \frac{\partial \mathcal{L}}{\partial z^{(l)}} &= -{\textstyle \sum_{i=1}^{N_{l}}} \frac{\partial (y_{i}\log(\hat{y_{i}}) + (1-y_{i})\log(1-\hat{y_{i}}))}{\partial z^{(l)}} \\
+                                    &= -{\textstyle \sum_{i=1}^{N_{l}}}\left [ y_{i} \frac{\partial \log(\hat{y_{i}})}{\partial z^{(l)}} + (1-y_{i})\frac{\partial \log(1-\hat{y_{i}})}{\partial z^{(l)}} \right ]\\
+                                    &= -{\textstyle \sum_{i=1}^{N_{l}}}\left [ y_{i} \frac{1}{\hat{y_{i}}} \frac{\partial \hat{y_{i}}}{\partial z^{(l)}} + (1-y_{i})\frac{1}{1-\hat{y_{i}}} \frac{\partial (1-\hat{y_{i}})}{\partial z^{(l)}} \right ]\\
+                            \end{align}$
+                        </td>
+                    </tr>
+                </table>
+                <p>而</p>
+                <table class="formula-table">
+                    <tr>
+                        <td>
+                            $\small{}
+                            \begin{align}
+                            \frac{\partial \hat{y_{i}}}{\partial z^{(l)}} &= \frac{\partial}{\partial z^{(l)}}\frac{1}{1+e^{-z^{(l)}_{i}}}\\
+                                & = (0,0,...,\hat{y}_{i}(1-\hat{y}_{i}),...,0) \\
+                                & = \mathbb{I}_i(\hat{y}_{i}(1-\hat{y}_{i}))
+                            \end{align}$
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            $\small{}
+                            \begin{align}
+                            \frac{\partial (1-\hat{y_{i}})}{\partial z^{(l)}} &= -\frac{\partial \hat{y_{i}}}{\partial z^{(l)}}\\
+                                & = -\mathbb{I}_i(\hat{y}_{i}(1-\hat{y}_{i}))
+                            \end{align}$
+                        </td>
+                    </tr>
+                </table>
+                <p>代入公式(3.19)得</p>
+                <table class="formula-table">
+                    <tr>
+                        <td>
+                            $\small{}
+                            \begin{align}
+                            \frac{\partial \mathcal{L}}{\partial z^{(l)}} &= -{\textstyle \sum_{i=1}^{N_{l}}}\left [ y_{i} \frac{1}{\hat{y_{i}}} \mathbb{I}_i(\hat{y}_{i}(1-\hat{y}_{i})) - (1-y_{i})\frac{1}{1-\hat{y_{i}}} \mathbb{I}_i(\hat{y}_{i}(1-\hat{y}_{i})) \right ]\\
+                                & = -{\textstyle \sum_{i=1}^{N_{l}}}\left [ \mathbb{I}_i(y_{i}(1-\hat{y}_{i})) - \mathbb{I}_i(\hat{y}_{i}(1-y_{i}))\right ] \\
+                                & = -{\textstyle \sum_{i=1}^{N_{l}}}\mathbb{I}_i \left (y_{i}(1-\hat{y}_{i}) - \hat{y}_{i}(1-y_{i})\right ) \\
+                                & = -{\textstyle \sum_{i=1}^{N_{l}}}\mathbb{I}_i \left (y_{i} - \hat{y}_{i}\right ) \\
+                                & = \hat{y}-y \in \mathbb{R}^{N_{l} \times 1}
+                            \end{align}$
+                        </td>
+                    </tr>
+                </table>
+                <p>(2)输出层为$softmax,\mathcal{L}=cross-entropy$</p>
+                <p>由定义知：</p>
+                <table class="formula-table">
+                    <tr>
+                        <td>
+                            $\small{}
+                            \begin{align}
+                            \frac{\partial \mathcal{L}}{\partial z^{(l)}} &= -{\textstyle \sum_{i=1}^{N_{l}}} \frac{\partial y_{i}log(\hat{y}_{i})}{\partial z^{(l)}} \\
+                                &= -{\textstyle \sum_{i=1}^{N_{l}}} y_{i}\frac{1}{\hat{y}_{i}}\frac{\partial}{\partial z^{(l)}} \frac{\exp(z^{(l)}_{i})}{{\textstyle \sum_{j=1}^{N_{l}}}\exp(z^{(l)}_{j})}
+                            \end{align}$
+                        </td>
+                    </tr>
+                </table>
+                <p>先求$\Large{}\frac{\partial}{\partial z^{(l)}_{k}}\frac{\exp(z^{(l)}_{i})}{{\normalsize{} \textstyle \sum_{j=1}^{N_{l}}}\exp(z^{(l)}_{j})}$</p>
+                <p>当$k=i$时</p>
+                <table class="formula-table">
+                    <tr>
+                        <td>
+                            $\small{}
+                            \begin{align}
+                            \frac{\partial}{\partial z^{(l)}_{k}} \frac{\exp(z^{(l)}_{i})}{{\textstyle \sum_{j=1}^{N_{l}}}\exp(z^{(l)}_{j})} &= \frac{\partial}{\partial z^{(l)}_{i}} \frac{\exp(z^{(l)}_{i})}{{\textstyle \sum_{j=1}^{N_{l}}}\exp(z^{(l)}_{j})} \\
+                                &= \frac{\exp(z^{(l)}_{i}){\textstyle \sum_{j=1}^{N_{l}}}\exp(z^{(l)}_{j})-\exp(z^{(l)}_{i})\exp(z^{(l)}_{i})}{\left ({\textstyle \sum_{j=1}^{N_{l}}}\exp(z^{(l)}_{j}) \right )^{2}} \\
+                                &= \frac{\exp(z^{(l)}_{i})\left ({\textstyle \sum_{j=1}^{N_{l}}}\exp(z^{(l)}_{j})-\exp(z^{(l)}_{i})\right )}{\left ({\textstyle \sum_{j=1}^{N_{l}}}\exp(z^{(l)}_{j}) \right )^{2}} \\
+                                &= \frac{\exp(z^{(l)}_{i})}{{\textstyle \sum_{j=1}^{N_{l}}}\exp(z^{(l)}_{j})} \left(1 - \frac{\exp(z^{(l)}_{i})}{{\textstyle \sum_{j=1}^{N_{l}}}\exp(z^{(l)}_{j})} \right) \\
+                                &= \hat{y}_{i}(1-\hat{y}_{i})
+                            \end{align}$
+                        </td>
+                    </tr>
+                </table>
+                <p>当$k \ne i$ 时</p>
+                <table class="formula-table">
+                    <tr>
+                        <td>
+                            $\small{}
+                            \begin{align}
+                            \frac{\partial}{\partial z^{(l)}_{k}} \frac{\exp(z^{(l)}_{i})}{{\textstyle \sum_{j=1}^{N_{l}}}\exp(z^{(l)}_{j})} &= -\frac{\exp(z^{(l)}_{i}) \exp(z^{(l)}_{k})}{\left ({\textstyle \sum_{j=1}^{N_{l}}}\exp(z^{(l)}_{j}) \right )^{2}}\\
+                            &= -\hat{y}_{i}\hat{y}_{k}
+                            \end{align}$
+                        </td>
+                    </tr>
+                </table>
+                <p>因此</p>
+                <table class="formula-table">
+                    <tr>
+                        <td>
+                            $\small{}
+                            \begin{align}
+                            \frac{\partial}{\partial z^{(l)}} \frac{\exp(z^{(l)}_{i})}{{\textstyle \sum_{j=1}^{N_{l}}}\exp(z^{(l)}_{j})} &= \left ( -\hat{y}_{i}\hat{y}_{1},-\hat{y}_{i}\hat{y}_{2},...,\hat{y}_{i}(1-\hat{y}_{i}),...,-\hat{y}_{i}\hat{y}_{N_{l}} \right) \\
+                                &= -\left ( \hat{y}_{i}\hat{y}_{1},\hat{y}_{i}\hat{y}_{2},...,\hat{y}_{i}\hat{y}_{i}-\hat{y}_{i},...,\hat{y}_{i}\hat{y}_{N_{l}} \right) \\
+                                &= -\hat{y}_{i} \left ( \hat{y}_{1},\hat{y}_{2},...,\hat{y}_{i},...,\hat{y}_{N_{l}} \right) + \mathbb{I}_{i}(\hat{y_{i}}) \\
+                                &= -\hat{y}_{i}\hat{y} + \mathbb{I}_{i}(\hat{y_{i}})
+                            \end{align}$
+                        </td>
+                    </tr>
+                </table>
+                <p>代入公式(3.23)得：</p>
+                <table class="formula-table">
+                    <tr>
+                        <td>
+                            $\small{}
+                            \begin{align}
+                            \frac{\partial \mathcal{L}}{\partial z^{(l)}} &= -{\textstyle \sum_{i=1}^{N_{l}}} \frac{y_{i}}{\hat{y}_{i}}\left ( -\hat{y}_{i} \hat{y} + \mathbb{I}_{i}(\hat{y_{i}}) \right) \\
+                                &= {\textstyle \sum_{i=1}^{N_{l}}} \left ( y_{i} \hat{y} - \mathbb{I}_{i}(y_{i}) \right) \\
+                                &=  \hat{y}{\textstyle \sum_{i=1}^{N_{l}}}y_{i} - y \text{ （注意：y为one-hot编码，} {\textstyle \sum_{i=1}^{N_{l}}}y_{i}=1 \text{）}\\
+                                &= \hat{y}-y
+                            \end{align}$
+                        </td>
+                    </tr>
+                </table>
+                <p>(3)输出层为$f(x)=x,\mathcal{L}=MSE$</p>
+                <p>由定义知：</p>
+                <table class="formula-table">
+                    <tr>
+                        <td>
+                            $\small{}
+                            \begin{align}
+                            \frac{\partial \mathcal{L}}{\partial z^{(l)}} &= \frac{1}{2}\frac{\partial \left \| \hat{y} -y \right \|^{2}}{\partial z^{(l)}} \\
+                                &=\frac{1}{2}\frac{\partial \left \| z^{(l)} -y \right \|^{2}}{\partial z^{(l)}} \\
+                                &=z^{(l)}-y\\
+                                &=\hat{y}-y
+                            \end{align}$
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="paragraph">
+                <p>以下为上述几个组合总结表</p>
+                <div class="table-container">
+                    <p class="introduce-text">常用损失函数组合表</p>
+                    <table>
+                        <tr>
+                            <th>输出层激活函数</th>
+                            <th>损失函数</th>
+                            <th>损失函数公式</th>
+                            <th>标签形式</th>
+                            <th>适用问题</th>
+                        </tr>
+                        <tr>
+                            <td>$sigmoid$</td>
+                            <td>$BCE$</td>
+                            <td>$-\left (ylog(\hat{y})+(1-y)log(1-\hat{y}) \right )$</td>
+                            <td>$y \in \{0,1\}$</td>
+                            <td>二分类问题</td>
+                        </tr>
+                        <tr>
+                            <td>$softmax$</td>
+                            <td>$CE$</td>
+                            <td>$-\sum_{i=1}^{n}y_ilog(\hat{y}_i)$</td>
+                            <td>one-hot编码</td>
+                            <td>单标签多分类问题</td>
+                        </tr>
+                        <tr>
+                            <td>$sigmoid$</td>
+                            <td>$BCE$</td>
+                            <td>$-\sum_{i=1}^{n}\left (y_ilog(\hat{y}_i)+(1-y_i)log(1-\hat{y}_i)\right )$</td>
+                            <td>多标签向量</td>
+                            <td>多标签多分类问题</td>
+                        </tr>
+                        <tr>
+                            <td>$f(x)=x$</td>
+                            <td>$MSE$</td>
+                            <td>$\frac{1}{2}\sum_{i=1}^{n}\left \|y_i-\hat{y}_i\right \|^2$</td>
+                            <td>实数向量或标量</td>
+                            <td>回归问题</td>
+                        </tr>
+                    </table>
+                </div>
+                <p><span class="highlight">输出层的误差项均为$\hat{y}-y$</span></p>
             </div>
         </div>
     </div>
 
 </body>
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  },
+  svg: {
+    fontCache: 'global'
+  }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 <script type="module" src="../../js/show_contents.js"></script>
 <script type="module" src="../../js/1.基础模型/FNN.js"></script>
 <script type="module" src="../../js/1.基础模型/code.js"></script>
