@@ -367,8 +367,14 @@
                         </td>
                     </tr>
                 </table>
+                <p>由公式(3.4)及公式(3.8)又有：</p>
+                <table class="formula-table">
+                    <tr>
+                        <td>$\large \frac{\partial \mathcal{L}}{\partial b^{(l)}}\normalsize{} =\delta ^{(l)} \in \mathbb{R}^{N_{l}\times 1}$</td>
+                    </tr> 
+                </table>
                 <p>接下来我们将计算几个常用的损失函数的梯度</p>
-                <p>(1)输出层为$sigmoid,\mathcal{L}=BCE(binary$&nbsp;&nbsp;$$cross-entropy)$</p>
+                <p>(1)输出层为$sigmoid,\mathcal{L}=BCE(binary$&nbsp;&nbsp;$cross-entropy)$</p>
                 <p>由定义知：</p>
                 <table class="formula-table">
                     <tr>
@@ -566,7 +572,39 @@
                     </table>
                 </div>
                 <p><span class="highlight">输出层的误差项均为$\hat{y}-y$</span></p>
+                <p>接下来编写反向传播算法，这里以二分类为例（实现输入一个二维向量，判断是否位于一三象限），读者可以自行设计其他问题</p>
+                <p>根据推导过程，可以知道要进行反向传播，需要先计算输出层的误差项，反向传播的过程中还需要用到激活函数的导数，对于二分类问题，实现这两个函数的代码如下：</p>
             </div>
+            <div class="code-box"></div>
+            <div class="paragraph">
+                <p>为了实现反向传播，还需要有数据集，对于我们的任务，该数据集可以直接用代码生成，实现代码如下：</p>
+            </div>
+            <div class="code-box"></div>
+            <div class="paragraph">
+                <p>相应的需要修改神经网络的结构（输出层变为2个神经元，输出层为1一个）和前向传播算法（将每个输入从X中取出来进行前向传播），修改后的代码如下：</p>
+            </div>
+            <div class="code-box"></div>
+            <div class="paragraph">
+                <p>做完准备工作后，便可以正式开始编写反向传播算法了。首先我们需要一个列表，用于存放误差项，其最后一项通过前面定义的函数得到，其余项通过公式(3.14)方向传播得到，代码如下：(注意误差项的列表长度比神经网络的层数少1)</p>
+            </div>
+            <div class="code-box"></div>
+            <div class="paragraph">
+                <p>
+                    最后根据公式(3.1)(3.2)和公式(3.16)(3.17)对权重矩阵和偏置进行更新即可，需要注意的是在前面的推导中激活值的索引是从0开始的，其余变量都是从1开始的。
+                    但python列表的索引是从0开始的，为了避免出现激活值的索引从-1开始带来的麻烦，代码中对激活的索引进行了修改。即后移了一位，这也就导致代码中的公式(3.16)
+                    对应的激活值的索引为$l$而非$l-1.$
+                </p>
+            </div>
+            <div class="code-box"></div>
+            <div class="paragraph">
+                <p>至此，我们完成了整个神经网络训练，但我们还没看到神经网络真正的解决问题，为此，我们可以写一个如下的简单程序进行验证：</p>
+            </div>
+            <div class="code-box"></div>
+            <div class="paragraph">
+                <p>其中，输入是一个二维向量，用空格分隔</p>
+                <p>完整代码如下：</p>
+            </div>
+            <div class="code-box"></div>
         </div>
     </div>
 

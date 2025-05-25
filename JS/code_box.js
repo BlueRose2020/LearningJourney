@@ -20,7 +20,7 @@ function str2html(code_box, str, code_language) {
             }
         }
 
-        p.innerHTML = line;
+        p.innerHTML = line
         code.appendChild(p);
     });
     code_box.appendChild(top_bar);

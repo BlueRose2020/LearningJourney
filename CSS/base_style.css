@@ -245,6 +245,7 @@ table {
     margin-top: 1rem;
     margin-left: 10rem;
     font-size: 9rem;
+    user-select: none;
 }
 
 .code-box>code{
@@ -257,6 +258,8 @@ table {
     overflow: auto;
     border-bottom-left-radius: 5rem;
     border-bottom-right-radius: 5rem;
+    padding-top: 5rem;
+    padding-bottom: 5rem;
 }
 
 .code-top-bar{
